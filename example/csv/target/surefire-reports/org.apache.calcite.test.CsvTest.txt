@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------
+Test set: org.apache.calcite.test.CsvTest
+-------------------------------------------------------------------------------
+Tests run: 26, Failures: 1, Errors: 0, Skipped: 2, Time elapsed: 23.39 sec <<< FAILURE! - in org.apache.calcite.test.CsvTest
+testPrepared(org.apache.calcite.test.CsvTest)  Time elapsed: 0.095 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<[DEPTNO=10; NAME=Sales]> but was:<[DEPTNO=10; NAME=Sales; TEST=POINT(125 15)]>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:118)
+	at org.junit.Assert.assertEquals(Assert.java:144)
+	at org.apache.calcite.test.CsvTest$3.apply(CsvTest.java:296)
+	at org.apache.calcite.test.CsvTest$3.apply(CsvTest.java:291)
+	at org.apache.calcite.test.CsvTest.testPrepared(CsvTest.java:548)
+

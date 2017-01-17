@@ -1,0 +1,5 @@
+DEPTNO:int,NAME:string,TOCKA:point
+10,"Sales", (10,10)
+20,"Marketing", (10,10)
+30,"Accounts", (10,10)
+

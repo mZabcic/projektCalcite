@@ -1,0 +1,536 @@
+# scalar.iq - Scalar sub-queries
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to you under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+!set outputformat mysql
+!use scott
+
+select deptno, (select min(empno) from "scott".emp where deptno = dept.deptno) as x from "scott".dept;
++--------+------+
+| DEPTNO | X    |
++--------+------+
+|     10 | 7782 |
+|     20 | 7369 |
+|     30 | 7499 |
+|     40 |      |
++--------+------+
+(4 rows)
+
+!ok
+Error while executing command OkCommand [sql: select deptno, (select min(empno) from "scott".emp where deptno = dept.deptno) as x from "scott".dept
+]
+java.lang.AssertionError: Correlation variable $cor0 should be defined
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.getCorrelVariableGetter(EnumerableRelImplementor.java:450)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor$1.apply(EnumerableRelImplementor.java:79)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor$1.apply(EnumerableRelImplementor.java:77)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:533)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateList(RexToLixTranslator.java:696)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateList(RexToLixTranslator.java:686)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics0(RexImpTable.java:740)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.access$900(RexImpTable.java:181)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$3.implement(RexImpTable.java:411)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$CastOptimizedImplementor.implement(RexImpTable.java:1778)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics(RexImpTable.java:803)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics0(RexImpTable.java:756)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.access$900(RexImpTable.java:181)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$3.implement(RexImpTable.java:411)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$IsXxxImplementor.implement(RexImpTable.java:1932)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCondition(RexToLixTranslator.java:768)
+	at org.apache.calcite.adapter.enumerable.EnumerableCalc.implement(EnumerableCalc.java:162)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableAggregate.implement(EnumerableAggregate.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableJoin.implement(EnumerableJoin.java:191)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.implementRoot(EnumerableRelImplementor.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableInterpretable.toBindable(EnumerableInterpretable.java:92)
+	at org.apache.calcite.prepare.CalcitePrepareImpl$CalcitePreparingStmt.implement(CalcitePrepareImpl.java:1199)
+	at org.apache.calcite.prepare.Prepare.prepareSql(Prepare.java:299)
+	at org.apache.calcite.prepare.Prepare.prepareSql(Prepare.java:193)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepare2_(CalcitePrepareImpl.java:734)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepare_(CalcitePrepareImpl.java:597)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepareSql(CalcitePrepareImpl.java:567)
+	at org.apache.calcite.jdbc.CalciteConnectionImpl.parseQuery(CalciteConnectionImpl.java:215)
+	at org.apache.calcite.jdbc.CalciteMetaImpl.prepareAndExecute(CalciteMetaImpl.java:594)
+	at org.apache.calcite.avatica.AvaticaConnection.prepareAndExecuteInternal(AvaticaConnection.java:613)
+	at org.apache.calcite.avatica.AvaticaStatement.executeInternal(AvaticaStatement.java:139)
+	at org.apache.calcite.avatica.AvaticaStatement.executeQuery(AvaticaStatement.java:208)
+	at net.hydromatic.quidem.Quidem$CheckResultCommand.execute(Quidem.java:778)
+	at net.hydromatic.quidem.Quidem$CompositeCommand.execute(Quidem.java:1312)
+	at net.hydromatic.quidem.Quidem.execute(Quidem.java:171)
+	at org.apache.calcite.test.QuidemTest.checkRun(QuidemTest.java:146)
+	at org.apache.calcite.test.QuidemTest.test(QuidemTest.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:387)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+select deptno, (select count(*) from "scott".emp where deptno = dept.deptno) as x from "scott".dept;
++--------+---+
+| DEPTNO | X |
++--------+---+
+|     10 | 3 |
+|     20 | 5 |
+|     30 | 6 |
+|     40 | 0 |
++--------+---+
+(4 rows)
+
+!ok
+Error while executing command OkCommand [sql: select deptno, (select count(*) from "scott".emp where deptno = dept.deptno) as x from "scott".dept
+]
+java.lang.AssertionError: Correlation variable $cor0 should be defined
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.getCorrelVariableGetter(EnumerableRelImplementor.java:450)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor$1.apply(EnumerableRelImplementor.java:79)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor$1.apply(EnumerableRelImplementor.java:77)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:533)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateList(RexToLixTranslator.java:696)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateList(RexToLixTranslator.java:686)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics0(RexImpTable.java:740)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.access$900(RexImpTable.java:181)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$3.implement(RexImpTable.java:411)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$CastOptimizedImplementor.implement(RexImpTable.java:1778)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics(RexImpTable.java:803)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics0(RexImpTable.java:756)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.access$900(RexImpTable.java:181)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$3.implement(RexImpTable.java:411)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$IsXxxImplementor.implement(RexImpTable.java:1932)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCondition(RexToLixTranslator.java:768)
+	at org.apache.calcite.adapter.enumerable.EnumerableCalc.implement(EnumerableCalc.java:162)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableAggregate.implement(EnumerableAggregate.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableJoin.implement(EnumerableJoin.java:191)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.implementRoot(EnumerableRelImplementor.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableInterpretable.toBindable(EnumerableInterpretable.java:92)
+	at org.apache.calcite.prepare.CalcitePrepareImpl$CalcitePreparingStmt.implement(CalcitePrepareImpl.java:1199)
+	at org.apache.calcite.prepare.Prepare.prepareSql(Prepare.java:299)
+	at org.apache.calcite.prepare.Prepare.prepareSql(Prepare.java:193)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepare2_(CalcitePrepareImpl.java:734)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepare_(CalcitePrepareImpl.java:597)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepareSql(CalcitePrepareImpl.java:567)
+	at org.apache.calcite.jdbc.CalciteConnectionImpl.parseQuery(CalciteConnectionImpl.java:215)
+	at org.apache.calcite.jdbc.CalciteMetaImpl.prepareAndExecute(CalciteMetaImpl.java:594)
+	at org.apache.calcite.avatica.AvaticaConnection.prepareAndExecuteInternal(AvaticaConnection.java:613)
+	at org.apache.calcite.avatica.AvaticaStatement.executeInternal(AvaticaStatement.java:139)
+	at org.apache.calcite.avatica.AvaticaStatement.executeQuery(AvaticaStatement.java:208)
+	at net.hydromatic.quidem.Quidem$CheckResultCommand.execute(Quidem.java:778)
+	at net.hydromatic.quidem.Quidem$CompositeCommand.execute(Quidem.java:1312)
+	at net.hydromatic.quidem.Quidem.execute(Quidem.java:171)
+	at org.apache.calcite.test.QuidemTest.checkRun(QuidemTest.java:146)
+	at org.apache.calcite.test.QuidemTest.test(QuidemTest.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:387)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+select deptno, (select count(*) from "scott".emp where deptno = dept.deptno group by deptno) as x from "scott".dept;
++--------+---+
+| DEPTNO | X |
++--------+---+
+|     10 | 3 |
+|     20 | 5 |
+|     30 | 6 |
+|     40 |   |
++--------+---+
+(4 rows)
+
+!ok
+Error while executing command OkCommand [sql: select deptno, (select count(*) from "scott".emp where deptno = dept.deptno group by deptno) as x from "scott".dept
+]
+java.lang.AssertionError: Correlation variable $cor0 should be defined
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.getCorrelVariableGetter(EnumerableRelImplementor.java:450)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor$1.apply(EnumerableRelImplementor.java:79)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor$1.apply(EnumerableRelImplementor.java:77)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:533)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateList(RexToLixTranslator.java:696)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateList(RexToLixTranslator.java:686)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics0(RexImpTable.java:740)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.access$900(RexImpTable.java:181)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$3.implement(RexImpTable.java:411)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$CastOptimizedImplementor.implement(RexImpTable.java:1778)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics(RexImpTable.java:803)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics0(RexImpTable.java:756)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.access$900(RexImpTable.java:181)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$3.implement(RexImpTable.java:411)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$IsXxxImplementor.implement(RexImpTable.java:1932)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCondition(RexToLixTranslator.java:768)
+	at org.apache.calcite.adapter.enumerable.EnumerableCalc.implement(EnumerableCalc.java:162)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableAggregate.implement(EnumerableAggregate.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableAggregate.implement(EnumerableAggregate.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableJoin.implement(EnumerableJoin.java:191)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.implementRoot(EnumerableRelImplementor.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableInterpretable.toBindable(EnumerableInterpretable.java:92)
+	at org.apache.calcite.prepare.CalcitePrepareImpl$CalcitePreparingStmt.implement(CalcitePrepareImpl.java:1199)
+	at org.apache.calcite.prepare.Prepare.prepareSql(Prepare.java:299)
+	at org.apache.calcite.prepare.Prepare.prepareSql(Prepare.java:193)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepare2_(CalcitePrepareImpl.java:734)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepare_(CalcitePrepareImpl.java:597)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepareSql(CalcitePrepareImpl.java:567)
+	at org.apache.calcite.jdbc.CalciteConnectionImpl.parseQuery(CalciteConnectionImpl.java:215)
+	at org.apache.calcite.jdbc.CalciteMetaImpl.prepareAndExecute(CalciteMetaImpl.java:594)
+	at org.apache.calcite.avatica.AvaticaConnection.prepareAndExecuteInternal(AvaticaConnection.java:613)
+	at org.apache.calcite.avatica.AvaticaStatement.executeInternal(AvaticaStatement.java:139)
+	at org.apache.calcite.avatica.AvaticaStatement.executeQuery(AvaticaStatement.java:208)
+	at net.hydromatic.quidem.Quidem$CheckResultCommand.execute(Quidem.java:778)
+	at net.hydromatic.quidem.Quidem$CompositeCommand.execute(Quidem.java:1312)
+	at net.hydromatic.quidem.Quidem.execute(Quidem.java:171)
+	at org.apache.calcite.test.QuidemTest.checkRun(QuidemTest.java:146)
+	at org.apache.calcite.test.QuidemTest.test(QuidemTest.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:387)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+# cast necessary to prevent overflow
+select deptno, (select sum(cast(empno as int)) from "scott".emp where deptno = dept.deptno group by deptno) as x from "scott".dept;
++--------+-------+
+| DEPTNO | X     |
++--------+-------+
+|     10 | 23555 |
+|     20 | 38501 |
+|     30 | 46116 |
+|     40 |       |
++--------+-------+
+(4 rows)
+
+!ok
+Error while executing command OkCommand [sql: select deptno, (select sum(cast(empno as int)) from "scott".emp where deptno = dept.deptno group by deptno) as x from "scott".dept
+]
+java.lang.AssertionError: Correlation variable $cor0 should be defined
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.getCorrelVariableGetter(EnumerableRelImplementor.java:450)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor$1.apply(EnumerableRelImplementor.java:79)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor$1.apply(EnumerableRelImplementor.java:77)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:533)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateList(RexToLixTranslator.java:696)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateList(RexToLixTranslator.java:686)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics0(RexImpTable.java:740)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.access$900(RexImpTable.java:181)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$3.implement(RexImpTable.java:411)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$CastOptimizedImplementor.implement(RexImpTable.java:1778)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics(RexImpTable.java:803)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.implementNullSemantics0(RexImpTable.java:756)
+	at org.apache.calcite.adapter.enumerable.RexImpTable.access$900(RexImpTable.java:181)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$3.implement(RexImpTable.java:411)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexImpTable$IsXxxImplementor.implement(RexImpTable.java:1932)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCall(RexToLixTranslator.java:565)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:537)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate0(RexToLixTranslator.java:502)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:222)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translate(RexToLixTranslator.java:211)
+	at org.apache.calcite.adapter.enumerable.RexToLixTranslator.translateCondition(RexToLixTranslator.java:768)
+	at org.apache.calcite.adapter.enumerable.EnumerableCalc.implement(EnumerableCalc.java:162)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableAggregate.implement(EnumerableAggregate.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableAggregate.implement(EnumerableAggregate.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.visitChild(EnumerableRelImplementor.java:97)
+	at org.apache.calcite.adapter.enumerable.EnumerableJoin.implement(EnumerableJoin.java:191)
+	at org.apache.calcite.adapter.enumerable.EnumerableRelImplementor.implementRoot(EnumerableRelImplementor.java:102)
+	at org.apache.calcite.adapter.enumerable.EnumerableInterpretable.toBindable(EnumerableInterpretable.java:92)
+	at org.apache.calcite.prepare.CalcitePrepareImpl$CalcitePreparingStmt.implement(CalcitePrepareImpl.java:1199)
+	at org.apache.calcite.prepare.Prepare.prepareSql(Prepare.java:299)
+	at org.apache.calcite.prepare.Prepare.prepareSql(Prepare.java:193)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepare2_(CalcitePrepareImpl.java:734)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepare_(CalcitePrepareImpl.java:597)
+	at org.apache.calcite.prepare.CalcitePrepareImpl.prepareSql(CalcitePrepareImpl.java:567)
+	at org.apache.calcite.jdbc.CalciteConnectionImpl.parseQuery(CalciteConnectionImpl.java:215)
+	at org.apache.calcite.jdbc.CalciteMetaImpl.prepareAndExecute(CalciteMetaImpl.java:594)
+	at org.apache.calcite.avatica.AvaticaConnection.prepareAndExecuteInternal(AvaticaConnection.java:613)
+	at org.apache.calcite.avatica.AvaticaStatement.executeInternal(AvaticaStatement.java:139)
+	at org.apache.calcite.avatica.AvaticaStatement.executeQuery(AvaticaStatement.java:208)
+	at net.hydromatic.quidem.Quidem$CheckResultCommand.execute(Quidem.java:778)
+	at net.hydromatic.quidem.Quidem$CompositeCommand.execute(Quidem.java:1312)
+	at net.hydromatic.quidem.Quidem.execute(Quidem.java:171)
+	at org.apache.calcite.test.QuidemTest.checkRun(QuidemTest.java:146)
+	at org.apache.calcite.test.QuidemTest.test(QuidemTest.java:197)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+	at org.apache.maven.surefire.junitcore.pc.Scheduler$1.run(Scheduler.java:387)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+select deptno, (select count(*) from "scott".emp where 1 = 0) as x from "scott".dept;
++--------+---+
+| DEPTNO | X |
++--------+---+
+|     10 | 0 |
+|     20 | 0 |
+|     30 | 0 |
+|     40 | 0 |
++--------+---+
+(4 rows)
+
+!ok
+
+select deptno, (select count(*) from "scott".emp where 1 = 0 group by ()) as x from "scott".dept;
++--------+---+
+| DEPTNO | X |
++--------+---+
+|     10 | 0 |
+|     20 | 0 |
+|     30 | 0 |
+|     40 | 0 |
++--------+---+
+(4 rows)
+
+!ok
+
+select deptno, (select sum(empno) from "scott".emp where 1 = 0) as x from "scott".dept;
++--------+---+
+| DEPTNO | X |
++--------+---+
+|     10 |   |
+|     20 |   |
+|     30 |   |
+|     40 |   |
++--------+---+
+(4 rows)
+
+!ok
+
+select deptno, (select sum(empno) from "scott".emp where 1 = 0 group by ()) as x from "scott".dept;
++--------+---+
+| DEPTNO | X |
++--------+---+
+|     10 |   |
+|     20 |   |
+|     30 |   |
+|     40 |   |
++--------+---+
+(4 rows)
+
+!ok
+
+# [CALCITE-709] Errors with LIMIT inside scalar sub-query
+!if (false) {
+select deptno, (select sum(empno) from "scott".emp where deptno = dept.deptno limit 1) as x from "scott".dept;
++--------+----------------------+
+| DEPTNO |          X           |
++--------+----------------------+
+| 10     | 23555                |
+| 20     | 38501                |
+| 30     | 46116                |
+| 40     | null                 |
++--------+----------------------+
+(4 rows)
+
+!ok
+!}
+
+# [CALCITE-709] Errors with LIMIT inside scalar sub-query
+!if (false) {
+select deptno, (select sum(empno) from "scott".emp where deptno = dept.deptno limit 0) as x from "scott".dept;
++--------+----------------------+
+| DEPTNO |          X           |
++--------+----------------------+
+| 10     | 23555                |
+| 20     | 38501                |
+| 30     | 46116                |
+| 40     | null                 |
++--------+----------------------+
+(4 rows)
+
+!ok
+!}
+
+# [CALCITE-709] Errors with LIMIT inside scalar sub-query
+!if (false) {
+select deptno, (select deptno from "scott".emp where deptno = dept.deptno limit 1) as x from "scott".dept;
++--------+------+
+| DEPTNO |  X   |
++--------+------+
+| 10     | 10   |
+| 20     | 20   |
+| 30     | 30   |
+| 40     | null |
++--------+------+
+(4 rows)
+
+!ok
+!}
+
+select deptno, (select deptno from "scott".emp where deptno = dept.deptno limit 0) as x from "scott".dept;
++--------+---+
+| DEPTNO | X |
++--------+---+
+|     10 |   |
+|     20 |   |
+|     30 |   |
+|     40 |   |
++--------+---+
+(4 rows)
+
+!ok
+
+# [CALCITE-709] Errors with LIMIT inside scalar sub-query
+!if (false) {
+select deptno, (select empno from "scott".emp where deptno = dept.deptno order by empno limit 1) as x from "scott".dept;
++--------+--------+
+| DEPTNO |   X    |
++--------+--------+
+| 10     | 7369   |
+| 20     | 7369   |
+| 30     | 7369   |
+| 40     | 7369   |
++--------+--------+
+(4 rows)
+
+!ok
+!}
+
+select deptno, (select empno from "scott".emp order by empno limit 1) as x from "scott".dept;
++--------+------+
+| DEPTNO | X    |
++--------+------+
+|     10 | 7369 |
+|     20 | 7369 |
+|     30 | 7369 |
+|     40 | 7369 |
++--------+------+
+(4 rows)
+
+!ok
+
+# End scalar.iq
