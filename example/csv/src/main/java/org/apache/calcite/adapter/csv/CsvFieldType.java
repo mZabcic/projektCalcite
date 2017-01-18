@@ -51,6 +51,7 @@ enum CsvFieldType {
   TIME(java.sql.Time.class, "time"),
   TIMESTAMP(java.sql.Timestamp.class, "timestamp"),
   POINT(com.vividsolutions.jts.geom.Point.class, "point"),
+  LINESTRING(com.vividsolutions.jts.geom.LineString.class, "linestring"),
   POLYGON(com.vividsolutions.jts.geom.Polygon.class, "polygon");
 
   private final Class clazz;

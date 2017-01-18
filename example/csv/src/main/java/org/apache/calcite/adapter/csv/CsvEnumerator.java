@@ -46,6 +46,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.LineString;
+
 /** Enumerator that reads from a CSV file.
  *
  * @param <E> Row type
@@ -344,6 +346,24 @@ class CsvEnumerator<E> implements Enumerator<E> {
     		return null;
     	}
     	return point;
+      case LINESTRING:
+        ArrayList<Coordinate> coordinatess = new ArrayList<Coordinate>();
+        String[] spl = string.split("\\(");
+        for (String s: spl){
+        if (s.length() > 0){
+        s = s.trim();
+        s = s.substring(0, s.length() - 1);
+        String[] sp = s.split("\\s+");
+        Double x1 = Double.parseDouble(sp[0]);
+        Double y1 = Double.parseDouble(sp[1]);
+        coordinatess.add(new Coordinate(x1,y1));
+        } 
+        }
+        Coordinate[] coor = new Coordinate[coordinatess.size()];
+        coor = coordinatess.toArray(coor);
+        GeometryFactory gfact = new GeometryFactory();
+        LineString ls = gfact.createLineString(coor);
+        return ls;
        case POLYGON:
     	  // System.out.println(string);
     	  ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
