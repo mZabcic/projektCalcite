@@ -1,0 +1,5 @@
+ID:int,IME:string,ID_OBJ:int,LOKACIJA:point
+1,"Matisse",1,(45.8012152 15.9725972)
+2,"Cozy caffe & wine bar",3,(45.8015346 15.9721026)
+3,"Kafic",2,(45.8015611 15.9715332)
+4,"Duborvacka zvona",3,(45.8015442 15.9723148)

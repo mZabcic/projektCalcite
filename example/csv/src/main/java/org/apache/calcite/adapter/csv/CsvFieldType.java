@@ -77,8 +77,8 @@ enum CsvFieldType {
   }
 
   public RelDataType toType(JavaTypeFactory typeFactory) {
-	  RelDataType test = typeFactory.createJavaType(clazz);
-	  System.out.println(test.getSqlTypeName());
+	 // RelDataType test = typeFactory.createJavaType(clazz);
+	//  System.out.println(test.getSqlTypeName());
     return typeFactory.createJavaType(clazz);
   }
 

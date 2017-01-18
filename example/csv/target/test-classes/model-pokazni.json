@@ -1,0 +1,23 @@
+/* 
+ *  za spajanje u sqlline upisi naredbu "!connect jdbc:calcite:model=target/test-classes/model-pokazni.json admin admin"
+ *  za velike upite povecati maxwidth: "!set maxwidth 10000"
+ * POKAZNI UPIT: select l.ime as ime_lokacije, 
+                        o.ime as ime_objekta,
+                        lokacija,
+                        izgled  as izgled_objekta_u_kojem_se_nalazi 
+                        from lokacije as l join objekti as o on l.id_obj = o.id;
+ */
+{
+  version: '1.0',
+  defaultSchema: 'KARTA',
+  schemas: [
+    {
+      name: 'KARTA',
+      type: 'custom',
+      factory: 'org.apache.calcite.adapter.csv.CsvSchemaFactory',
+      operand: {
+        directory: 'karta'
+      }
+    }
+  ]
+}

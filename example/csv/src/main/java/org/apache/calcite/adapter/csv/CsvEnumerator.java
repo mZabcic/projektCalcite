@@ -333,13 +333,11 @@ class CsvEnumerator<E> implements Enumerator<E> {
     	String[] points = string.split("\\s+");
     	Double x;
     	Double y;
-    	Double z;
     	Point point;
     	try { x =  Double.parseDouble(points[0]);
     	y =  Double.parseDouble(points[1]);
-        z =  Double.parseDouble(points[2]);
         GeometryFactory gf = new GeometryFactory();
-    	point = gf.createPoint( new Coordinate( x, y, z) );
+    	point = gf.createPoint( new Coordinate( x, y) );
     	} catch (Exception e)
     	{
     		System.out.println("Wrong number of arguments for Point!");
